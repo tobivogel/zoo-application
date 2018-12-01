@@ -1,26 +1,35 @@
 package zoo.rabbit;
 
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import zoo.rabbit.events.RabbitEventProducer;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RabbitTest {
 
+	@InjectMocks
 	@Autowired
 	private Rabbit service;
 
+	@Mock
+	RabbitEventProducer eventProducer;
+
 	@Test
-	@Ignore("animalObservations...")
-	public void shouldGetInitialState() {
-//		Assert.assertSame(service.state(), "snoozing");
+	@Ignore
+	public void eatFood_shouldEmitTwoMessages() {
+		service.eatFood(1);
+
+		verify(eventProducer, times(2)).emitBehaviour("some behaviour");
 	}
 //
 //	@Test

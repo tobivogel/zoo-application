@@ -1,28 +1,35 @@
 package zoo.keeper;
 
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import zoo.keeper.events.AnimalBehaviour;
 
-import java.util.Collection;
+import java.time.Instant;
 
-import static java.util.Collections.emptySet;
-import static org.hamcrest.Matchers.emptyCollectionOf;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class KeeperTest {
 
-	@Autowired
 	private Keeper service;
+
+	@Before
+	public void setUp() {
+		this.service = new Keeper();
+	}
 
 	@Test
 	public void shouldNotHaveAnyAnimalObservationsOnStartup() {
-		Assert.assertThat(service.getAnimalBehaviours(), is(emptyCollectionOf(AnimalBehaviour.class)));
+		assertThat(service.getAnimalBehaviours(), is(emptyCollectionOf(AnimalBehaviour.class)));
+	}
+
+	@Test
+	// The business layer should be completely stateless,
+	// the persistence of data should be pushed out into a Repository layer
+	public void shouldRememberAnimalObservations() {
+		AnimalBehaviour behaviour = new AnimalBehaviour("lion", Instant.now(), "sleeping");
+		service.rememberAnimalObservation(behaviour);
+
+		assertThat(service.getAnimalBehaviours(), contains(behaviour));
 	}
 }

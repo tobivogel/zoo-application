@@ -43,9 +43,9 @@ public class ZooIT {
 
 		template.postForLocation(postFeedAnimals.toString(), null);
 
-		// Call twice to simulate a bit of delay.
-		// Testing async workflows is not the simplest thing
-		response = template.getForEntity(getAnimalObservations.toString(), String.class);
+		// Not the nicest solution...I know. =o)
+		Thread.sleep(50);
+
 		response = template.getForEntity(getAnimalObservations.toString(), String.class);
 		assertThat(response.getBody(), containsString("Looks like Rabbit is snoozing"));
 		assertThat(response.getBody(), containsString("Looks like Turtle is snoozing"));

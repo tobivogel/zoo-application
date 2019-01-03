@@ -17,4 +17,7 @@ pipelines:
                    source: "build/test-results/test/*.xml"
                    destination: testoutput
               tasks:
-                - script: ./gradlew build
+                - exec:
+                   command: ".gradlew"
+                   arguments:
+                    - build

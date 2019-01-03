@@ -1,22 +1,20 @@
 pipelines:
   "zoo-application":
     group: "simple-app"
-    locking: off
     materials:
       git:
-        url: "https://github.com/tobivogel/zoo-application.git"
+        git: "https://github.com/tobivogel/zoo-application.git"
     stages:
       - build:
-          clean_workspace: true
-          artifacts:
-           - build:
-               source: build/libs/*.jar
-               destination: build/libs
-           - test:
-               source: "build/test-results/test/*.xml"
-               destination: testoutput
-          tasks:
-           - exec:
-               command: ide
-               arguments: 
-                - gradle test jar
+          jobs:
+            build:
+              clean_workspace: true
+              artifacts:
+                - build:
+                   source: build/libs/*.jar
+                   destination: build/libs
+                - test:
+                   source: "build/test-results/test/*.xml"
+                   destination: testoutput
+              tasks:
+                - script: ./gradlew build

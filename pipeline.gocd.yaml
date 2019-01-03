@@ -18,6 +18,6 @@ pipelines:
                    destination: testoutput
               tasks:
                 - exec:
-                   command: ".gradlew"
+                   command: "./gradlew"
                    arguments:
                     - build

@@ -14,7 +14,7 @@ pipelines:
                    source: build/libs/*.jar
                    destination: build/libs
                 - test:
-                   source: "build/test-results/test/*.xml"
+                   source: "build/test-results"
                    destination: testoutput
               tasks:
                 - exec:
